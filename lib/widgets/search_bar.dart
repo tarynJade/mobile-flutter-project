@@ -13,16 +13,27 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: 'Search recipes...',
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.search),
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        controller: controller,
+        decoration: const InputDecoration(
+          hintText: 'Search recipes...',
+          border: OutlineInputBorder(),
+          prefixIcon: Icon(Icons.search),
+        ),
+        onSubmitted: (value) {
+          if (value.trim().isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please enter a search term'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+            return;
+          }
+          onSubmitted(value);
+        },
       ),
-      onSubmitted: onSubmitted,
-    ),
-  );
-}
+    );
+  }
 }

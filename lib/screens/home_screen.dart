@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/recipe_card.dart';
 import '../widgets/logo_banner.dart';
+import '../widgets/bottom_nav.dart';
+import '../models/recipe.dart';
+import '../services/api_service.dart';
+import '../widgets/search_results.dart'; 
+import '../screens/favourite_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,54 +16,107 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<dynamic> _recipes = [];
-  int currentPage = 0;
+  final ApiService _apiService = ApiService();
 
-  void _searchRecipes(String query) async {
-    final results = await ApiService().fetchRecipes(query);
+  List<Recipe> _recipes = [];
+  bool _isLoading = false;
+  bool _hasSearched = false;
+  String _errorMessage = '';
+  int _currentIndex = 0;
+
+  Future<void> _searchRecipes(String query) async {
     setState(() {
-      _recipes = results;
+      _isLoading = true;
+      _hasSearched = true;
+      _errorMessage = '';
     });
+
+    try {
+      final recipes = await _apiService.fetchRecipes(query);
+      setState(() {
+        _recipes = recipes;
+      });
+    } catch (error) {
+      _handleSearchError(error.toString(), query);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const LogoBanner(),
-              CustomSearchBar(
-                controller: _controller,
-                onSubmitted: _searchRecipes,
-              ),
-            const SizedBox(height: 10),
-            Expanded(
-                child: GridView.builder(
-                  itemCount: _recipes.length > 6 ? 6 : _recipes.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemBuilder: (context, index) {
-                    return RecipeCard(recipe: _recipes[index]);
-                  },
-                ),
-              ),
-          ],
+  void _handleSearchError(String message, String query) {
+    setState(() {
+      _errorMessage = message;
+      _recipes = [];
+    });
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: $message'),
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+          label: 'Try Again',
+          onPressed: () => _searchRecipes(query),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentPage,
-        onTap: (value) => setState(() {
-          currentPage = value;
-        }),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-        ],
       ),
     );
   }
+
+  void _handleBottomNavTap(int index) {
+    if (index == _currentIndex) return;
+
+    setState(() {
+      _currentIndex = index;
+    });
+
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+      );
+    }
+  }
+
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: SafeArea(
+      child: Column(
+        children: [
+          const LogoBanner(),
+          CustomSearchBar(
+            controller: _controller,
+            onSubmitted: _searchRecipes,
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: !_hasSearched
+                ? Center(
+                    child: Text(
+                      'Search for recipes to get started!',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  )
+                : SearchResultsView(
+                    recipes: _recipes,
+                    isLoading: _isLoading,
+                    hasSearched: _hasSearched,
+                    errorMessage: _errorMessage,
+                  ),
+          ),
+        ],
+      ),
+    ),
+    bottomNavigationBar: AppBottomNavBar(
+      currentIndex: _currentIndex,
+      onTabTapped: _handleBottomNavTap,
+    ),
+  );
+}
+
 }

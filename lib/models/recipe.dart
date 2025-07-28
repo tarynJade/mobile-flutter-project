@@ -5,6 +5,7 @@ class Recipe {
   final String? instructions;
   final List<String>? ingredients;
   final String? summary;
+  bool isFavorite = false;
 
   Recipe({
     required this.id,
@@ -14,6 +15,18 @@ class Recipe {
     this.ingredients,
     this.summary,
   });
+
+    Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'image': image,
+      'ingredients': ingredients,
+      'instructions': instructions,
+      'isFavorite': isFavorite,
+    };
+  }
+  
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
