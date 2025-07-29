@@ -2,16 +2,16 @@ class Recipe {
   final int id;
   final String title;
   final String? image;
-  final String? instructions;
+  final List<String>? analyzedInstructions;
   final List<String>? ingredients;
   final String? summary;
-  bool isFavorite = false;
+  bool isFavourite = false;
 
   Recipe({
     required this.id,
     required this.title,
     this.image,
-    this.instructions,
+    this.analyzedInstructions,
     this.ingredients,
     this.summary,
   });
@@ -22,8 +22,8 @@ class Recipe {
       'title': title,
       'image': image,
       'ingredients': ingredients,
-      'instructions': instructions,
-      'isFavorite': isFavorite,
+      'instructions': analyzedInstructions,
+      'isFavourite': isFavourite,
     };
   }
   
@@ -33,7 +33,12 @@ class Recipe {
       id: json['id'] ?? 0,
       title: json['title'] ?? 'No Title',
       image: json['image'],
-      instructions: json['instructions'],
+      analyzedInstructions: json['analyzedInstructions'] != null
+          ? (json['analyzedInstructions'] as List)
+            .expand((instruction) => (instruction['steps'] as List)
+            .map((step) => '${step['number']}. ${step['step']}'))
+              .toList()
+          : null,
       summary: json['summary'],
       ingredients: json['extendedIngredients'] != null
           ? (json['extendedIngredients'] as List)

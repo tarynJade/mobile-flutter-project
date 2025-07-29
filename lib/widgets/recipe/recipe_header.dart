@@ -18,7 +18,7 @@ class _RecipeHeaderState extends State<RecipeHeader> {
   @override
   void initState() {
     super.initState();
-    _isLiked = FavouritesManager().isRecipeFavorite(widget.recipe.id);
+    _isLiked = FavouritesManager().isRecipeFavourite(widget.recipe.id);
   }
 
   void _handleFavoriteChanged(bool isLiked) async {
@@ -27,9 +27,9 @@ class _RecipeHeaderState extends State<RecipeHeader> {
     });
     
     if (isLiked) {
-      await FavouritesManager().addFavorite(widget.recipe);
+      await FavouritesManager().addFavourite(widget.recipe);
     } else {
-      await FavouritesManager().removeFavorite(widget.recipe.id);
+      await FavouritesManager().removeFavourite(widget.recipe.id);
     }
   }
 

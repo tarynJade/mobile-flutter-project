@@ -19,6 +19,7 @@ class RecipeCard extends StatelessWidget {
         );
       },
       child: Card(
+        color: Colors.white, 
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Column(

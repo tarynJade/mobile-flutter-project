@@ -32,6 +32,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.recipe.title),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 22),
+          backgroundColor: const Color.fromARGB(255, 33, 136, 167),
         ),
         body: FutureBuilder<Recipe>(
           future: _fullRecipe,
