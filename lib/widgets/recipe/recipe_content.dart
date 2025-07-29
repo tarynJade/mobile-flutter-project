@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../models/recipe.dart';
-import '../../../services/text_utils.dart';
-import '../instructions_steps.dart';
 import 'recipe_image.dart';
 import 'recipe_header.dart';
 import 'section_title.dart';
@@ -14,12 +12,11 @@ class RecipeContent extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   final ingredients = recipe.ingredients ?? [];
-  final instructions = TextUtils.cleanInstructions(recipe.instructions);
+  final instruction = recipe.analyzedInstructions;
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // Header section - NOT inside Expanded to ensure visibility
       SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -41,11 +38,9 @@ Widget build(BuildContext context) {
         ],
       ),
 
-      // TabBar content - use Expanded here to fill remaining space
       Expanded(
         child: TabBarView(
           children: [
-            // Ingredients
             SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -61,16 +56,23 @@ Widget build(BuildContext context) {
               ),
             ),
 
-            // Instructions
             SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SectionTitle(title: 'Instructions:'),
+                  Text('Recipe ID: ${recipe.id}'),
                   const SizedBox(height: 6),
-                  instructions.isNotEmpty
-                      ? InstructionSteps(steps: instructions)
+                  (instruction ?? []).isNotEmpty
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              (instruction ?? []).join('\n\n'), 
+                            ),
+                          ],
+                        )
                       : const Text('No instructions available'),
                 ],
               ),
