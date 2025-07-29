@@ -100,7 +100,7 @@ Widget build(BuildContext context) {
               child: !_hasSearched
                   ? Center(
                       child: Text(
-                        'Search for recipes to get started!',
+                        'Type your ingredients and get inspired!',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     )
