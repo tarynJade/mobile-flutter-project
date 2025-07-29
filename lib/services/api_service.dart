@@ -49,22 +49,4 @@ Future<Recipe> fetchRecipeDetails(int recipeId) async {
   }
 }
 
-
-Future<List<Recipe>> fetchRecipesWithDetails(String query) async {
-  final url = Uri.parse('$_baseUrl?query=$query&apiKey=$_apiKey');
-  final response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    final List results = data['results'];
-
-    return Future.wait(results.map((item) {
-      final id = item['id'];
-      return fetchRecipeDetails(id);
-    }));
-  } else {
-    throw Exception('Failed to load recipes');
-  }
-}
-
 }
