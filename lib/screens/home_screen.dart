@@ -67,21 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _handleBottomNavTap(int index) {
-    if (index == _currentIndex) return;
-
-    setState(() {
-      _currentIndex = index;
-    });
-
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const FavoritesScreen()),
-      );
-    }
-  }
-
  @override
 Widget build(BuildContext context) {
   return Scaffold(
@@ -93,7 +78,6 @@ Widget build(BuildContext context) {
             controller: _controller,
             onSubmitted: _searchRecipes,
           ),
-          const SizedBox(height: 10),
           Expanded(
             child: Container(
               color: const Color.fromARGB(255, 188, 231, 249),
@@ -115,10 +99,17 @@ Widget build(BuildContext context) {
         ],
       ),
     ),
-    bottomNavigationBar: AppBottomNavBar(
-      currentIndex: _currentIndex,
-      onTabTapped: _handleBottomNavTap,
-    ),
+     bottomNavigationBar: AppBottomNavBar(
+          currentIndex: 0,
+          onTabTapped: (index) {
+             if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+              );
+            }
+          },
+        ),
   );
 }
 

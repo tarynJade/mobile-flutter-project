@@ -15,7 +15,6 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   final FavouritesManager _favoritesManager = FavouritesManager();
   List<Recipe> _favorites = [];
-  int _currentIndex = 1;
 
   @override
   void initState() {
@@ -30,20 +29,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 
-  void _handleBottomNavTap(int index) {
-    if (index == _currentIndex) return;
-
-    setState(() {
-      _currentIndex = index;
-    });
-
-    if (index == 0) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +42,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: _favorites.isEmpty
           ? const Center(child: Text('No favourite recipes yet!'))
           : FavoritesGrid(favorites: _favorites),
+          backgroundColor: const Color.fromARGB(255, 188, 231, 249),
       bottomNavigationBar: AppBottomNavBar(
-        currentIndex: _currentIndex,
-        onTabTapped: _handleBottomNavTap,
+        currentIndex: 1,
+        onTabTapped: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+          }
+        },
       ),
     );
   }

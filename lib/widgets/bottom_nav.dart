@@ -16,8 +16,8 @@ class AppBottomNavBar extends StatelessWidget {
 
     return BottomNavigationBar(
       backgroundColor: const Color.fromARGB(255, 33, 136, 167),
-      selectedItemColor:const Color.fromARGB(255, 188, 231, 249),
-      unselectedItemColor: Colors.white,
+      unselectedItemColor:const Color.fromARGB(255, 188, 231, 249),
+      selectedItemColor: Colors.white,
       selectedFontSize: 16,
       unselectedFontSize: 14,
       currentIndex: safeIndex,
