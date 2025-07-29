@@ -20,7 +20,11 @@ class ApiService {
         id: json['id'],
         title: json['title'],
         image: json['image'],
-        instructions: json['instructions'],
+        analyzedInstructions: json['analyzedInstructions'] != null
+            ? (json['analyzedInstructions'] as List)
+                .map((i) => i['steps'] as String)
+                .toList()
+            : null,
         ingredients: json['extendedIngredients'] != null
             ? (json['extendedIngredients'] as List)
                 .map((i) => i['original'] as String)
@@ -54,7 +58,6 @@ Future<List<Recipe>> fetchRecipesWithDetails(String query) async {
     final data = json.decode(response.body);
     final List results = data['results'];
 
-    // Use Future.wait to fetch all full recipe details in parallel
     return Future.wait(results.map((item) {
       final id = item['id'];
       return fetchRecipeDetails(id);
