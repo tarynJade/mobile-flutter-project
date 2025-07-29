@@ -24,9 +24,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Future<void> _loadFavorites() async {
-    await _favoritesManager.loadFavorites();
+    await _favoritesManager.loadFavourites();
     setState(() {
-      _favorites = _favoritesManager.getAllFavorites();
+      _favorites = _favoritesManager.getAllFavourites();
     });
   }
 
@@ -50,6 +50,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favourite Recipes'),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 22),
+        backgroundColor: const Color.fromARGB(255, 33, 136, 167),
+      
       ),
       body: _favorites.isEmpty
           ? const Center(child: Text('No favourite recipes yet!'))
