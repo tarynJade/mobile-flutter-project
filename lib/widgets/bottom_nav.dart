@@ -15,6 +15,11 @@ class AppBottomNavBar extends StatelessWidget {
     final safeIndex = currentIndex < 0 || currentIndex > 1 ? 0 : currentIndex;
 
     return BottomNavigationBar(
+      backgroundColor: const Color.fromARGB(255, 33, 136, 167),
+      selectedItemColor:const Color.fromARGB(255, 188, 231, 249),
+      unselectedItemColor: Colors.white,
+      selectedFontSize: 16,
+      unselectedFontSize: 14,
       currentIndex: safeIndex,
       onTap: (index) => onTabTapped(index),
       items: const [

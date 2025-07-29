@@ -8,7 +8,7 @@ class LogoBanner extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: SizedBox(
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.30,
         child: Image.asset(
           'assets/whats_cooking_logo.png',
