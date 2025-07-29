@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
   bool _hasSearched = false;
   String _errorMessage = '';
-  int _currentIndex = 0;
 
   Future<void> _searchRecipes(String query) async {
     setState(() {
