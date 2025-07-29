@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import '../widgets/recipe_card.dart';
+import '../widgets/error_message.dart';
 
 class SearchResultsView extends StatelessWidget {
   final List<Recipe> recipes;
@@ -24,11 +25,10 @@ class SearchResultsView extends StatelessWidget {
 
     if (recipes.isEmpty && hasSearched) {
       return Center(
-        child: Text(
-          errorMessage.isNotEmpty
+        child: ErrorMessage(
+          message: errorMessage.isNotEmpty
               ? 'Error: $errorMessage'
               : 'No recipes found. Try searching for other ingredients!',
-              style: TextStyle(color: Colors.red, fontSize: 16.0),
         ),
       );
     } 

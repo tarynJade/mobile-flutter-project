@@ -17,7 +17,7 @@ class CustomSearchBar extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: const InputDecoration(
-          hintText: 'Search recipes...',
+          hintText: 'Got ingredients? Type them here...',
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.search),
         ),
@@ -25,7 +25,7 @@ class CustomSearchBar extends StatelessWidget {
           if (value.trim().isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Please enter a search term'),
+                content: Text('Please enter an ingredient in the search bar.'),
                 duration: Duration(seconds: 2),
               ),
             );
