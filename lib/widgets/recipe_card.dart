@@ -28,11 +28,13 @@ class RecipeCard extends StatelessWidget {
           if (recipe.image != null && recipe.image!.isNotEmpty)
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-              child: Image.network(
-                recipe.image!,
-                height: 130,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.network(
+                  recipe.image!,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           Padding(
@@ -42,6 +44,7 @@ class RecipeCard extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
+              textScaler: MediaQuery.of(context).textScaler.clamp(minScaleFactor: 0.8, maxScaleFactor: 1.6)
             ),
           ),
         ],

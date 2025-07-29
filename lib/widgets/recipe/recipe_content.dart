@@ -18,7 +18,6 @@ Widget build(BuildContext context) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -62,7 +61,6 @@ Widget build(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SectionTitle(title: 'Instructions:'),
-                  Text('Recipe ID: ${recipe.id}'),
                   const SizedBox(height: 6),
                   (instruction ?? []).isNotEmpty
                       ? Column(

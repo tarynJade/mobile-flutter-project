@@ -39,9 +39,12 @@ class _RecipeHeaderState extends State<RecipeHeader> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Text(
-            widget.recipe.title,
-            style: Theme.of(context).textTheme.titleLarge,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              widget.recipe.title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
         ),
         FavoriteHeart(
