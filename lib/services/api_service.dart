@@ -15,23 +15,7 @@ class ApiService {
     final data = json.decode(response.body);
     final results = data['results'] as List;
 
-    return results.map((json) {
-      return Recipe(
-        id: json['id'],
-        title: json['title'],
-        image: json['image'],
-        analyzedInstructions: json['analyzedInstructions'] != null
-            ? (json['analyzedInstructions'] as List)
-                .map((i) => i['steps'] as String)
-                .toList()
-            : null,
-        ingredients: json['extendedIngredients'] != null
-            ? (json['extendedIngredients'] as List)
-                .map((i) => i['original'] as String)
-                .toList()
-            : null,
-      );
-    }).toList();
+    return results.map((json) => Recipe.fromJson(json)).toList();
   } else {
     throw Exception('Failed to load recipes');
   }
@@ -48,5 +32,4 @@ Future<Recipe> fetchRecipeDetails(int recipeId) async {
     throw Exception('Failed to load recipe details');
   }
 }
-
 }
