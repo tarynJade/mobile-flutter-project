@@ -95,19 +95,22 @@ Widget build(BuildContext context) {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: !_hasSearched
-                ? Center(
-                    child: Text(
-                      'Search for recipes to get started!',
-                      style: Theme.of(context).textTheme.titleMedium,
+            child: Container(
+              color: const Color.fromARGB(255, 188, 231, 249),
+              child: !_hasSearched
+                  ? Center(
+                      child: Text(
+                        'Search for recipes to get started!',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    )
+                  : SearchResultsView(
+                      recipes: _recipes,
+                      isLoading: _isLoading,
+                      hasSearched: _hasSearched,
+                      errorMessage: _errorMessage,
                     ),
-                  )
-                : SearchResultsView(
-                    recipes: _recipes,
-                    isLoading: _isLoading,
-                    hasSearched: _hasSearched,
-                    errorMessage: _errorMessage,
-                  ),
+            ),
           ),
         ],
       ),
