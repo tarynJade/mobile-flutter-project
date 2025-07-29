@@ -8,55 +8,51 @@ class FavouritesManager {
   FavouritesManager._internal();
 
   static const String _storageKey = 'favorite_recipes';
-  final List<Recipe> _favorites = [];
+  final List<Recipe> _favourites = [];
   
-  Future<List<Recipe>> loadFavorites() async {
+  Future<List<Recipe>> loadFavourites() async {
     final prefs = await SharedPreferences.getInstance();
-    final favoritesJson = prefs.getStringList(_storageKey) ?? [];
+    final favouritesJson = prefs.getStringList(_storageKey) ?? [];
     
-    _favorites.clear();
-    for (final json in favoritesJson) {
+    _favourites.clear();
+    for (final json in favouritesJson) {
         final Map<String, dynamic> recipeMap = jsonDecode(json);
         final recipe = Recipe.fromJson(recipeMap);
-        recipe.isFavorite = true;
-        _favorites.add(recipe);
+        recipe.isFavourite = true;
+        _favourites.add(recipe);
       }
-    return _favorites;
+    return _favourites;
   }
-  
-  // Save favorites to storage
-  Future<void> _saveFavorites() async {
+
+
+  Future<void> _saveFavourites() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> jsonList = _favorites
+    final List<String> jsonList = _favourites
         .map((recipe) => jsonEncode(recipe.toJson()))
         .toList();
     
     await prefs.setStringList(_storageKey, jsonList);
   }
-  
-  // Add a recipe to favorites
-  Future<void> addFavorite(Recipe recipe) async {
-    // Check if recipe is already in favorites
-    if (!isRecipeFavorite(recipe.id)) {
-      recipe.isFavorite = true;
-      _favorites.add(recipe);
-      await _saveFavorites();
-    }
+
+  Future<void> addFavourite(Recipe recipe) async {
+    recipe.isFavourite = true;
+    _favourites.add(recipe);
+    await _saveFavourites();
   }
   
-  // Remove a recipe from favorites
-  Future<void> removeFavorite(recipeId) async {
-    _favorites.removeWhere((recipe) => recipe.id == recipeId);
-    await _saveFavorites();
+
+  Future<void> removeFavourite(recipeId) async {
+    _favourites.removeWhere((recipe) => recipe.id == recipeId);
+    await _saveFavourites();
   }
   
-  // Check if a recipe is in favorites
-  bool isRecipeFavorite(recipeId) {
-    return _favorites.any((recipe) => recipe.id == recipeId);
+
+  bool isRecipeFavourite(recipeId) {
+    return _favourites.any((recipe) => recipe.id == recipeId);
   }
-  
- 
-  List<Recipe> getAllFavorites() {
-    return List.from(_favorites);
+
+
+  List<Recipe> getAllFavourites() {
+    return List.from(_favourites);
   }
 }
