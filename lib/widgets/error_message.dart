@@ -11,9 +11,9 @@ class ErrorMessage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 60, color: Colors.red),
+          const Icon(Icons.error_outline, size: 60, color: Colors.black),
           const SizedBox(height: 16),
-          Text(message, textAlign: TextAlign.center, style: TextStyle(color: Colors.red, fontSize: 16)),
+          Text(message, textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontSize: 16)),
 
         ],
       ),
